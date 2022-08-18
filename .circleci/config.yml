@@ -49,12 +49,12 @@ jobs:
       - run  :
             name: Get Instance IP - Ansible Inventory
             command : |
-                echo "[all]" > ~/inventory
-                aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> ~/inventory
+                echo "[all]" > /home/circleci/project/inventory
+                aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text >> /home/circleci/project/inventory
       - persist_to_workspace:
             root: ~/
             paths: 
-             - inventory
+             - project/inventory
 
   # Exercise: Config and Deployment
   configure_infrastructure: 
@@ -79,7 +79,7 @@ jobs:
           command: |
             pwd
             ls
-            ansible-playbook -i inventory main-remote.yml
+            ansible-playbook -i /home/circleci/project/inventory main-remote.yml
       
       - run:
           name: delete stack
@@ -87,6 +87,7 @@ jobs:
             echo "ansible playbook failed"
             aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5}
             when: on_fail
+          
 
 workflows:
   AWS_INFRA:

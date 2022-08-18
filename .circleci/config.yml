@@ -86,7 +86,7 @@ jobs:
           command: |
             echo "ansible playbook failed"
             aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5}
-            when: on_fail
+          when: on_fail
           
 
 workflows:

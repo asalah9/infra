@@ -26,6 +26,7 @@ jobs:
       - run:
           name: Create Cloudformation Stack
           command: |
+            echo ${CIRCLE_WORKFLOW_ID:0:5}
             aws cloudformation deploy \
               --template-file template.yml \
               --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
@@ -58,7 +59,7 @@ jobs:
   # Exercise: Config and Deployment
   configure_infrastructure: 
     docker:
-      - image: python:3.7-alpine3.11
+      - image: cimg/base:stable
     steps:
       - checkout
       - add_ssh_keys:

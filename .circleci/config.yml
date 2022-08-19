@@ -101,9 +101,10 @@ jobs:
 # Exercise: Smoke Testing
   smoke_test:
     docker:
-      - image: amazon/aws-cli
+      - image: cimg/base:stable
     steps:
       - checkout
+      - install_ansible
       - attach_workspace:
             at: ~/ 
       - run: apk add --update curl
@@ -113,6 +114,7 @@ jobs:
             URL="https://blog.udacity.com/"
             result= "grep -m2 /home/circleci/project/inventory"
             echo $result 
+            curl -s --head ${result}:3000
             # Test if website exists
             if curl -s --head ${URL} 
             then

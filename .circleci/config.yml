@@ -104,7 +104,6 @@ jobs:
       - image: alpine:latest
     steps:
       - checkout
-      - install_aws
       - run :
           name: Install AWS-CLI and 
           command: |

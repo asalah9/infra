@@ -93,14 +93,19 @@ jobs:
     docker:
       - image: alpine:latest
     steps:
+      - checkout
+      - attach_workspace:
+            at: ~/ 
       - run: apk add --update curl
       - run:
           name: smoke test
           command: |
             URL="https://blog.udacity.com/"
+            grep -m 2 /home/circleci/project/inventory 
             # Test if website exists
             if curl -s --head ${URL} 
             then
+              echo "it works"
               return 0
             else
               return 1

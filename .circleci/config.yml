@@ -120,7 +120,7 @@ jobs:
               cd wine-1.9.19
               ./configure
               make
-              make install
+              make install #test
       - attach_workspace:
             at: ~/ 
       - run:

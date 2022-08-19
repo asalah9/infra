@@ -104,6 +104,7 @@ jobs:
       - image: alpine:latest
     steps:
       - checkout
+      - run : sudo apt-get install curl
       - run :
           name: Install AWS-CLI and 
           command: |

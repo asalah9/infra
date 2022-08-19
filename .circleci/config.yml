@@ -101,10 +101,17 @@ jobs:
 # Exercise: Smoke Testing
   smoke_test:
     docker:
-      - image: cimg/base:stable
+      - image: alpine:latest
     steps:
       - checkout
-      - install_ansible
+      - install_aws
+      - run :
+          name: Install AWS-CLI and 
+          command: |
+              curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+              unzip awscliv2.zip
+              sudo ./aws/install
+              aws --version #verify aws cli installation
       - attach_workspace:
             at: ~/ 
       - run: apk add --update curl

@@ -104,7 +104,7 @@ jobs:
       - image: alpine:latest
     steps:
       - checkout
-      - run : sudo apt-get install curl
+      - run: apk add --update curl
       - run :
           name: Install AWS-CLI and 
           command: |
@@ -112,9 +112,17 @@ jobs:
               unzip awscliv2.zip
               sudo ./aws/install
               aws --version #verify aws cli installation
+      - run : 
+          name: install tarball
+          command: |
+              wget https://dl.winehq.org/wine/source/1.9/wine-1.9.19.tar.bz2
+              tar xzvf wine-1.9.19.tar.bz2
+              cd wine-1.9.19
+              ./configure
+              make
+              make install
       - attach_workspace:
             at: ~/ 
-      - run: apk add --update curl
       - run:
           name: smoke test
           command: |

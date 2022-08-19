@@ -87,7 +87,25 @@ jobs:
             echo "ansible playbook failed"
             aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5}
           when: on_fail
-          
+
+# Exercise: Smoke Testing
+  smoke_test:
+  docker:
+    - image: alpine:latest
+  steps:
+    - run: apk add --update curl
+    - run:
+        name: smoke test
+        command: |
+          URL="https://blog.udacity.com/"
+          # Test if website exists
+          if curl -s --head ${URL} 
+          then
+            return 0
+          else
+            return 1
+          fi
+      
 
 workflows:
   AWS_INFRA:
@@ -97,3 +115,5 @@ workflows:
           requires : [create_infrastructure]
       - configure_infrastructure:
           requires : [inventory]
+      - smoke_test:
+          requires : [configure_infrastructure]
